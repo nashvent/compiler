@@ -1,0 +1,9 @@
+aud myaud1 = read("file1.mp3");
+aud myaud2 = read("file2.mp3");
+int a = 2;
+int j = 20;
+# comment test
+while (a < j){
+    a = a+1;
+}
+aud myaud3 = myaud1 + myaud2;
