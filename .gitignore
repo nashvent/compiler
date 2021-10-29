@@ -1,2 +1,4 @@
 __pycache__/*
-lexical_analyzer/__pycache__/*
+venv/
+Lexer/__pycache__/*
+Parser/__pycache__/*
