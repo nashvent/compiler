@@ -17,3 +17,4 @@ class Buffer:
                 yield buf
                 buffer = []
         arq.close()
+        
