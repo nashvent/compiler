@@ -1,0 +1,8 @@
+aud myaud1 = read("file1.mp3");
+aud myaud2 = read("file2.mp3");
+aud myaud3;
+`# comment test
+if ( myaud1 != null && myaud2 != null ){
+    myaud3 = myaud1 + myaud2;    
+}
+store(myaud3);
