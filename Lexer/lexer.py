@@ -17,13 +17,13 @@ class LexicalAnalyzer:
             token_type = m.lastgroup
             token_lexeme = m.group(token_type)
 
-            if token_type == 'NEWLINE':
+            if token_type == 'newline':
                 lin_start = m.end()
                 self.lin_num += 1
-            elif token_type == 'SKIP': # or token_type == 'COMMENT':
+            elif token_type == 'skip': # or token_type == 'COMMENT':
                 continue
-            elif token_type == 'MISMATCH':
-                raise RuntimeError('%r unexpected on line %d' % (token_lexeme, self.lin_num))
+            elif token_type == 'mismatch':
+                raise RuntimeError('%r unexpected token on line %d' % (token_lexeme, self.lin_num))
             else:
                     col = m.start() - lin_start
                     column.append(col)

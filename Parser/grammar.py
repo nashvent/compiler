@@ -128,8 +128,8 @@ class Grammar:
             ft = self.first(t)
             f = f.union(ft)
             if self.epsilon not in ft:
+                f = f - {self.epsilon}
                 break
-
         return f
 
     @lru_cache(maxsize=20)

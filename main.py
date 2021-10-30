@@ -16,5 +16,5 @@ if __name__ == '__main__':
     
     print("tokens", tokens)
     
-    words = ["id", "+", "id","+"]
-    result = parse_words(grammar_text, words)
+    result = parse_words(grammar_text, tokens)
+    
