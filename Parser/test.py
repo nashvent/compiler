@@ -1,62 +1,22 @@
-#!/usr/bin/env python
-import sys
-from Parser.functions import parse_bnf, pprint_table, remove_left_recursion, remove_left_factoring
+"""Parse using the LL(1) table."""
 from queue import LifoQueue
+
 from anytree import Node, RenderTree
 
-def do_the_whole_thing(grammar_text, epsilon='ε', eof='$', output=None, verbose=True):
-    file = None
-    if output:
-        file = open(output, 'w')
-        sys.stdout = file
-
-    vprint = print if verbose else lambda *a, **key: None  # Only print if verbose is True
-
-    vprint("Original:")
-    g = parse_bnf(grammar_text, epsilon=epsilon, eof=eof)
-    vprint(g)
-
-    vprint("\nAfter removing left-recursion:")
-    g = remove_left_recursion(g)
-    vprint(g)
-
-    vprint("\nAfter removing left-factoring:")
-    g = remove_left_factoring(g)
-    vprint(g)
-
-    vprint()
-    for nt in g.nonterminals:
-        vprint('FIRST({}) = {}'.format(nt, g.first(nt)))
-
-    vprint()
-    follow = [(nt, g.follow(nt)) for nt in g.nonterminals]
-
-    for nt, f in follow:
-        vprint('FOLLOW({}) = {}'.format(nt, f))
-
-    vprint()
-    table, ambiguous = g.parsing_table()
-    vprint("Parsing Table: ")
-    if ambiguous:
-        vprint("El lenguaje de entrada no es LL(1) debido a que se encontraron ambigüedades.")
-
-    vprint()
-    pprint_table(g, table)
-
-    if file:
-        file.close()
-
-
+from ll1.functions import parse_bnf
 
 
 class Stack(LifoQueue):
+    """Symbol stack."""
     def peek(self):
+        """Returns top of stack."""
         if len(self.queue) == 0:
             return None
         return self.queue[len(self.queue) - 1]
 
 
-def parse_words(grammar, words):
+def parse(grammar, words):
+    """Parse function"""
     grammar = parse_bnf(grammar)
     table, ambiguous = grammar.parsing_table(is_clean=True)
     if ambiguous:
@@ -110,3 +70,11 @@ def parse_words(grammar, words):
                     print(f"Skipped: {word}")
                     word = words.pop(0)
         top_stack = stack.peek()
+
+
+def parse_tree(grammar, words):
+    result, tree, errors = parse(grammar, words)
+    if not result:
+        return
+    for pre, fill, node in RenderTree(tree):
+        print(f"{pre}{node.name}")

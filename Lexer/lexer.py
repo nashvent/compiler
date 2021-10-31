@@ -12,7 +12,7 @@ class LexicalAnalyzer:
         lexeme = []
         line = []
         column = []
-
+        errors = []
         for m in re.finditer(tokens_join, code):
             token_type = m.lastgroup
             token_lexeme = m.group(token_type)
@@ -23,7 +23,7 @@ class LexicalAnalyzer:
             elif token_type == 'skip': # or token_type == 'COMMENT':
                 continue
             elif token_type == 'mismatch':
-                raise RuntimeError('%r unexpected token on line %d' % (token_lexeme, self.lin_num))
+                errors.append('%r unexpected token on line %d' % (token_lexeme, self.lin_num))
             else:
                     col = m.start() - lin_start
                     column.append(col)
@@ -32,4 +32,4 @@ class LexicalAnalyzer:
                     line.append(self.lin_num)
                     # print('<{0},\'{1}\'>'.format(token_type, token_lexeme))
 
-        return token, lexeme, line, column
+        return token, lexeme, line, column, errors

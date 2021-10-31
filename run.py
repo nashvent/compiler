@@ -18,9 +18,10 @@ if __name__ == '__main__':
 
     f= open(filename,'r')
     contents = f.read()
-    tokens, lexemes, lines, columns = analyzer.tokenize(token_rules, contents)
+    tokens, lexemes, lines, columns, errors = analyzer.tokenize(token_rules, contents)
     
     print("tokens", tokens)
     
     result = parse_words(grammar_text, tokens)
     
+    print("lexer errors", errors)
